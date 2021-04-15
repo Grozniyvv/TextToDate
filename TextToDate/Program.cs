@@ -57,7 +57,6 @@ namespace TextToDate
 
 
 
-            var reg = MatchCollection.
         }
     }
 }
