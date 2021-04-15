@@ -8,50 +8,54 @@ namespace TextToDate
     {
         static void Main(string[] args)
         {
-            var input = "01/21";
+            // Прием даты из текста в формате dd/MM/yyyy, dd:MM:yy, ww.yyyy, ww-yy, использовав одну функцию
             
-            if (Regex.IsMatch(input, @"\d+\W\d+\W\d+"))
+            var input = "01/21";
+            DateTime ParseDate (string input)
             {
-
-                var date1 = int.Parse(Regex.Match(input, @"(\d+)\W(\d+)\W(\d+)").Groups[1].Value);
-                var date2 = int.Parse(Regex.Match(input, @"(\d+)\W(\d+)\W(\d+)").Groups[2].Value);
-                var date3 = int.Parse(Regex.Match(input, @"(\d+)\W(\d+)\W(\d+)").Groups[3].Value);
-
-                if (date3 < 1000)
+                if (Regex.IsMatch(input, @"\d+\W\d+\W\d+"))
                 {
-                    date3 += 2000;
-                }
 
-                var date = new DateTime(date3, date2, date1);
-                Console.WriteLine("input: " + input);
-                Console.WriteLine("output: " + date);
-            }
-            else
-            {
-                var date1 = int.Parse(Regex.Match(input, @"(\d+)\W(\d+)").Groups[1].Value);
-                var date2 = int.Parse(Regex.Match(input, @"(\d+)\W(\d+)").Groups[2].Value);
-                if (date2 < 1000)
-                {
-                    date2 += 2000;
-                }
-                var date = new DateTime(date2, 1, 1);
-                date = date.AddDays((date1 - 2) * 7);
+                    var date1 = int.Parse(Regex.Match(input, @"(\d+)\W(\d+)\W(\d+)").Groups[1].Value);
+                    var date2 = int.Parse(Regex.Match(input, @"(\d+)\W(\d+)\W(\d+)").Groups[2].Value);
+                    var date3 = int.Parse(Regex.Match(input, @"(\d+)\W(\d+)\W(\d+)").Groups[3].Value);
 
-                for (var i = 0; i <= 6; i++)
-                {
-                    date = date.AddDays(1);
-                    if (date.DayOfWeek != DayOfWeek.Monday)
+                    if (date3 < 1000)
                     {
-                        continue;
+                        date3 += 2000;
                     }
-                    else
-                    {
-                        break;
-                    }
+
+                    var date = new DateTime(date3, date2, date1);
+                    return date;
                 }
-                Console.WriteLine("input: " + input);
-                Console.WriteLine("output: " + date + "\n" + "День недели: " + date.DayOfWeek);
+                else
+                {
+                    var date1 = int.Parse(Regex.Match(input, @"(\d+)\W(\d+)").Groups[1].Value);
+                    var date2 = int.Parse(Regex.Match(input, @"(\d+)\W(\d+)").Groups[2].Value);
+                    if (date2 < 1000)
+                    {
+                        date2 += 2000;
+                    }
+                    var date = new DateTime(date2, 1, 1);
+                    date = date.AddDays((date1 - 2) * 7);
+
+                    for (var i = 0; i <= 6; i++)
+                    {
+                        date = date.AddDays(1);
+                        if (date.DayOfWeek != DayOfWeek.Monday)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    return date;
+                }
             }
+
+            Console.WriteLine("input: " + input + "\n" + "output: " + ParseDate(input));
 
             Console.ReadLine();
 
